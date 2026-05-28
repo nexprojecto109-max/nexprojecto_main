@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexprojecto | Premium Project Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #0f0f25 50%, #151532 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0a1a; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #7c3aed, #06b6d4); border-radius: 10px; }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-pulse { animation: pulse 3s ease-in-out infinite; }
+        .animate-slideUp { animation: slideUp 0.6s ease-out forwards; opacity: 0; }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 5%;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+            transition: all 0.3s ease;
+        }
+        .navbar.scrolled {
+            padding: 0.7rem 5%;
+            background: rgba(10, 10, 26, 0.98);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4, #f59e0b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+        .logo i {
+            background: none;
+            -webkit-background-clip: unset;
+            color: #7c3aed;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.7rem 1.6rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: none;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #9333ea);
+            color: white;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #7c3aed;
+            color: #7c3aed;
+        }
+        .btn-outline:hover {
+            background: #7c3aed;
+            color: white;
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 2rem 2rem;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(124,58,237,0.15), transparent 70%);
+        }
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 8s ease-in-out infinite;
+        }
+        .hero-orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            background: rgba(124,58,237,0.2);
+            top: -100px;
+            left: -100px;
+        }
+        .hero-orb:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            background: rgba(6,182,212,0.15);
+            bottom: -50px;
+            right: -50px;
+            animation-delay: -4s;
+        }
+        .hero-orb:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: rgba(245,158,11,0.1);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            filter: blur(100px);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            max-width: 900px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(124,58,237,0.15);
+            border: 1px solid rgba(124,58,237,0.3);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            color: #a0a0c0;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+            flex-wrap: wrap;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1rem;
+        }
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: #a0a0c0;
+            margin-top: 0.3rem;
+        }
+
+        /* Section */
+        .section {
+            padding: 5rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .section-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #06b6d4;
+            margin-bottom: 0.5rem;
+        }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 700;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+        }
+        .filter-btn {
+            padding: 0.5rem 1.3rem;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #a0a0c0;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(135deg, #7c3aed, #9333ea);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50px;
+            color: white;
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .search-bar input:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 20px rgba(124,58,237,0.2);
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.8rem;
+        }
+        .project-card {
+            background: rgba(255,255,255,0.04);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(124,58,237,0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .card-thumb {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-thumb-inner {
+            font-size: 4rem;
+            transition: transform 0.3s;
+        }
+        .project-card:hover .card-thumb-inner {
+            transform: scale(1.1);
+        }
+        .featured-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            padding: 0.25rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .discount-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 0.25rem 0.7rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .card-body {
+            padding: 1.3rem;
+        }
+        .card-category {
+            font-size: 0.7rem;
+            color: #06b6d4;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .card-desc {
+            font-size: 0.85rem;
+            color: #a0a0c0;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .card-tech {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin: 0.8rem 0;
+        }
+        .tech-tag {
+            background: rgba(124,58,237,0.15);
+            padding: 0.2rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            color: #7c3aed;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+        }
+        .price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #06b6d4;
+        }
+        .old-price {
+            font-size: 0.8rem;
+            text-decoration: line-through;
+            color: #a0a0c0;
+            margin-left: 0.3rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(15px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-content {
+            background: linear-gradient(135deg, #0f0f25, #151532);
+            border-radius: 32px;
+            max-width: 450px;
+            width: 90%;
+            padding: 2rem;
+            border: 1px solid rgba(124,58,237,0.3);
+            animation: slideUp 0.4s ease;
+        }
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 0.8rem;
+            margin: 0.5rem 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: white;
+            outline: none;
+        }
+        .modal-content input:focus {
+            border-color: #7c3aed;
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -450px;
+            width: 450px;
+            height: 100%;
+            background: linear-gradient(180deg, #0f0f25, #0a0a1a);
+            z-index: 1500;
+            transition: right 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.5);
+            overflow-y: auto;
+            border-left: 1px solid rgba(124,58,237,0.2);
+        }
+        .cart-sidebar.open {
+            right: 0;
+        }
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1400;
+            display: none;
+        }
+        .cart-overlay.active {
+            display: block;
+        }
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            margin-bottom: 0.8rem;
+        }
+        .cart-item-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(124,58,237,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 1rem 1.8rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 500;
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .toast.error {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        /* Dashboard */
+        .dashboard-container {
+            padding: 100px 5% 4rem;
+            min-height: 100vh;
+        }
+        .user-profile {
+            background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(6,182,212,0.08));
+            border-radius: 24px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .user-avatar {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .dashboard-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .dashboard-tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            color: #a0a0c0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .dashboard-tab.active {
+            color: #06b6d4;
+            border-bottom-color: #06b6d4;
+        }
+        .order-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Admin Panel */
+        .admin-container {
+            padding: 100px 2% 2rem;
+            min-height: 100vh;
+        }
+        .admin-sidebar {
+            position: fixed;
+            left: 0;
+            top: 70px;
+            width: 260px;
+            height: calc(100vh - 70px);
+            background: rgba(15,15,37,0.95);
+            border-right: 1px solid rgba(124,58,237,0.2);
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+        .admin-content {
+            margin-left: 260px;
+            padding: 1.5rem;
+        }
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-box {
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        th {
+            color: #06b6d4;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2rem; }
+            .cart-sidebar { width: 100%; right: -100%; }
+            .admin-sidebar { position: relative; width: 100%; height: auto; }
+            .admin-content { margin-left: 0; }
+            .stats-grid { gap: 1.5rem; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Payment methods styling */
+        .pay-method-btn {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #a0a0c0;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .pay-method-btn.active {
+            background: rgba(6,182,212,0.15) !important;
+            border-color: #06b6d4 !important;
+            color: white !important;
+        }
+        .pay-method-btn.active i {
+            color: #06b6d4 !important;
+        }
+        
+        .pay-spinner {
+            border: 4px solid rgba(6,182,212,0.1);
+            border-left-color: #06b6d4;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            animation: paySpin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+</style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar" id="navbar">
+    <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1400px; margin: 0 auto;">
+        <div class="logo" onclick="showPage('home')" style="cursor: pointer; display: flex; align-items: center; gap: 0.6rem;">
+            <img src="/logo.jfif" alt="Logo" style="height: 34px; width: 34px; border-radius: 50%; object-fit: cover; border: 1.5px solid #7c3aed;"> Nex<span style="color: #7c3aed;">projecto</span>
+        </div>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <a href="#" onclick="showPage('home')" style="color: white; text-decoration: none; font-weight: 500;">Home</a>
+            <a href="#" onclick="showPage('projects')" style="color: white; text-decoration: none; font-weight: 500;">Projects</a>
+            <a href="#" onclick="openCustomizationModal()" style="color: white; text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.3rem;"><i class="fas fa-wand-magic-sparkles" style="color: #06b6d4;"></i> Customization</a>
+            <div id="authButtons">
+                <button class="btn btn-outline" onclick="openModal('loginModal')" style="padding: 0.5rem 1.2rem;">Login</button>
+                <button class="btn btn-primary" onclick="openModal('registerModal')" style="padding: 0.5rem 1.2rem;">Register</button>
+            </div>
+            <div id="userMenu" style="display: none;">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 1.3rem; cursor: pointer; position: relative;">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartCount" style="position: absolute; top: -8px; right: -12px; background: #f59e0b; color: #000; font-size: 0.7rem; padding: 0.1rem 0.4rem; border-radius: 50%;">0</span>
+                    </button>
+                    <div id="userAvatar" style="width: 38px; height: 38px; border-radius: 50%; background: #7c3aed; display: flex; align-items: center; justify-content: center; cursor: pointer; font-weight: 600;" onclick="toggleUserDropdown()">
+                        U
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- User Dropdown -->
+<div id="userDropdown" style="display: none; position: fixed; top: 70px; right: 20px; background: #0f0f25; border-radius: 16px; padding: 1rem; min-width: 200px; z-index: 1100; border: 1px solid rgba(124,58,237,0.3); backdrop-filter: blur(10px);">
+    <p id="userName" style="margin-bottom: 0.8rem; font-weight: 600;"></p>
+    <button onclick="showDashboard()" style="width: 100%; padding: 0.5rem; margin: 0.3rem 0; background: rgba(255,255,255,0.05); border: none; color: white; border-radius: 8px; cursor: pointer;">📊 Dashboard</button>
+    <button id="adminBtn" onclick="showAdminPanel()" style="display: none; width: 100%; padding: 0.5rem; margin: 0.3rem 0; background: rgba(124,58,237,0.3); border: none; color: white; border-radius: 8px; cursor: pointer;">⚙️ Admin Panel</button>
+    <button onclick="logout()" style="width: 100%; padding: 0.5rem; margin: 0.3rem 0; background: rgba(239,68,68,0.3); border: none; color: #ef4444; border-radius: 8px; cursor: pointer;">🚪 Logout</button>
+</div>
+
+<!-- Cart Sidebar -->
+<div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+    <div style="padding: 1.5rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h3><i class="fas fa-shopping-cart"></i> Your Cart</h3>
+            <button onclick="toggleCart()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+        </div>
+        <div id="cartItems"></div>
+        <div id="cartTotal" style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+            <h4>Total: ₹<span id="totalAmount">0</span></h4>
+            <button class="btn btn-primary" onclick="checkout()" style="width: 100%; margin-top: 1rem;">Proceed to Checkout</button>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h2 style="margin-bottom: 1rem;">Welcome Back</h2>
+        <p style="color: #a0a0c0; margin-bottom: 1.5rem;">Login to access your projects</p>
+        <input type="email" id="loginEmail" placeholder="Email address">
+        <input type="password" id="loginPassword" placeholder="Password">
+        <button class="btn btn-primary" onclick="login()" style="width: 100%; margin-top: 1rem;">Login</button>
+        <p style="margin-top: 1rem; text-align: center; font-size: 0.85rem;">
+            Don't have an account? <a href="#" onclick="closeModal('loginModal'); openModal('registerModal');" style="color: #06b6d4;">Sign up</a>
+        </p>
+        <p style="margin-top: 0.5rem; text-align: center; font-size: 0.75rem; color: #a0a0c0;">
+            Demo Admin: admin@nexprojecto.com / admin123
+        </p>
+    </div>
+</div>
+
+<!-- Register Modal -->
+<div id="registerModal" class="modal">
+    <div class="modal-content">
+        <h2 style="margin-bottom: 1rem;">Create Account</h2>
+        <p style="color: #a0a0c0; margin-bottom: 1.5rem;">Join Nexprojecto today</p>
+        <input type="text" id="regName" placeholder="Full name">
+        <input type="email" id="regEmail" placeholder="Email address">
+        <input type="password" id="regPassword" placeholder="Password (min 6 characters)">
+        <button class="btn btn-primary" onclick="register()" style="width: 100%; margin-top: 1rem;">Register</button>
+    </div>
+</div>
+
+<!-- Home Page -->
+<div id="homePage" class="page active">
+    <div class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-orb"></div>
+        <div class="hero-orb"></div>
+        <div class="hero-orb"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-bolt"></i> Premium Projects Marketplace
+            </div>
+            <h1 class="hero-title">Buy Ready-to-Use<br>Projects Instantly</h1>
+            <p class="hero-sub">Access 50+ production-ready projects including web apps, ML models, APIs, and mobile applications. Download instantly after purchase.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn-primary" onclick="showPage('projects')" style="font-size: 1rem;">
+                    <i class="fas fa-rocket"></i> Explore Projects
+                </button>
+                <button class="btn btn-outline" onclick="showHowItWorks()" style="font-size: 1rem;">
+                    <i class="fas fa-play"></i> How it Works
+                </button>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="projectCount">0</div>
+                    <div class="stat-label">Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">2,000+</div>
+                    <div class="stat-label">Happy Customers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Source Code</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-tag">Why Choose Us</div>
+            <h2 class="section-title">Everything You Need to Succeed</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+            <div class="glass" style="padding: 1.8rem; border-radius: 20px; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">⚡</div>
+                <h3 style="margin-bottom: 0.5rem;">Instant Delivery</h3>
+                <p style="color: #a0a0c0; font-size: 0.9rem;">Get source code immediately after payment</p>
+            </div>
+            <div class="glass" style="padding: 1.8rem; border-radius: 20px; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔒</div>
+                <h3 style="margin-bottom: 0.5rem;">Secure Payments</h3>
+                <p style="color: #a0a0c0; font-size: 0.9rem;">UPI, Card, Net Banking - All secured</p>
+            </div>
+            <div class="glass" style="padding: 1.8rem; border-radius: 20px; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">📦</div>
+                <h3 style="margin-bottom: 0.5rem;">Full Source Code</h3>
+                <p style="color: #a0a0c0; font-size: 0.9rem;">Complete documentation and setup guide</p>
+            </div>
+            <div class="glass" style="padding: 1.8rem; border-radius: 20px; text-align: center;">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎓</div>
+                <h3 style="margin-bottom: 0.5rem;">Student Friendly</h3>
+                <p style="color: #a0a0c0; font-size: 0.9rem;">Perfect for college projects and learning</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Projects -->
+    <div class="section" style="padding-top: 0;">
+        <div class="section-header">
+            <div class="section-tag">Featured</div>
+            <h2 class="section-title">Popular Projects</h2>
+        </div>
+        <div class="projects-grid" id="featuredGrid"></div>
+        <div style="text-align: center; margin-top: 2.5rem;">
+            <button class="btn btn-primary" onclick="showPage('projects')">View All Projects <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Projects Page -->
+<div id="projectsPage" class="page" style="display: none; padding-top: 80px;">
+    <div class="section">
+        <div class="section-header">
+            <div class="section-tag">Browse</div>
+            <h2 class="section-title">All Projects</h2>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="🔍 Search projects by title, tech stack, or category..." oninput="filterProjects()">
+        </div>
+        <div class="filters" id="categoryFilters"></div>
+        <div class="projects-grid" id="projectsGrid"></div>
+    </div>
+</div>
+
+<!-- Dashboard Page -->
+<div id="dashboardPage" class="page" style="display: none;">
+    <div class="dashboard-container">
+        <div class="user-profile">
+            <div class="user-avatar" id="dashboardAvatar">U</div>
+            <div>
+                <h3 id="dashboardName">Loading...</h3>
+                <p id="dashboardEmail" style="color: #a0a0c0;"></p>
+            </div>
+        </div>
+        <div class="dashboard-tabs">
+            <div class="dashboard-tab active" onclick="switchDashboardTab('purchases')">📦 My Purchases</div>
+            <div class="dashboard-tab" onclick="switchDashboardTab('cart')">🛒 My Cart</div>
+            <div class="dashboard-tab" onclick="switchDashboardTab('custom')">🛠️ Customizations</div>
+        </div>
+        <div id="purchasesTab"></div>
+        <div id="cartTab" style="display: none;"></div>
+        <div id="customTab" style="display: none;"></div>
+    </div>
+</div>
+
+<!-- Admin Page -->
+<div id="adminPage" class="page" style="display: none;">
+    <div class="admin-container">
+        <div class="admin-sidebar">
+            <div style="margin-bottom: 1.5rem;"><strong>Admin Panel</strong></div>
+            <div class="sidebar-link active" onclick="switchAdminTab('dashboard')" style="padding: 0.7rem; margin: 0.3rem 0; cursor: pointer; border-radius: 10px;">📊 Dashboard</div>
+            <div class="sidebar-link" onclick="switchAdminTab('projects')" style="padding: 0.7rem; margin: 0.3rem 0; cursor: pointer; border-radius: 10px;">📁 Manage Projects</div>
+            <div class="sidebar-link" onclick="switchAdminTab('customizations')" style="padding: 0.7rem; margin: 0.3rem 0; cursor: pointer; border-radius: 10px;">🛠️ Customizations</div>
+            <div class="sidebar-link" onclick="switchAdminTab('transactions')" style="padding: 0.7rem; margin: 0.3rem 0; cursor: pointer; border-radius: 10px;">💰 Transactions</div>
+            <div class="sidebar-link" onclick="switchAdminTab('users')" style="padding: 0.7rem; margin: 0.3rem 0; cursor: pointer; border-radius: 10px;">👥 Users</div>
+            <div class="sidebar-link" onclick="openAddProjectModal()" style="padding: 0.7rem; margin: 0.3rem 0; cursor: pointer; border-radius: 10px;">➕ Add Project</div>
+        </div>
+        <div class="admin-content">
+            <div id="adminDashboardTab">
+                <div class="admin-stats" id="adminStats"></div>
+                <div style="background: rgba(255,255,255,0.03); border-radius: 20px; padding: 1rem;">
+                    <h4>Recent Orders</h4>
+                    <div id="recentOrders"></div>
+                </div>
+            </div>
+            <div id="adminProjectsTab" style="display: none;">
+                <div style="background: rgba(255,255,255,0.03); border-radius: 20px; padding: 1rem;">
+                    <div id="adminProjectsList"></div>
+                </div>
+            </div>
+            <div id="adminCustomizationsTab" style="display: none;">
+                <div style="background: rgba(255,255,255,0.03); border-radius: 20px; padding: 1rem;">
+                    <h4>Customization Requests</h4>
+                    <div id="adminCustomizationsList" style="margin-top: 1rem;"></div>
+                </div>
+            </div>
+            <div id="adminTransactionsTab" style="display: none;">
+                <div style="background: rgba(255,255,255,0.03); border-radius: 20px; padding: 1rem;">
+                    <div id="transactionsList"></div>
+                </div>
+            </div>
+            <div id="adminUsersTab" style="display: none;">
+                <div style="background: rgba(255,255,255,0.03); border-radius: 20px; padding: 1rem;">
+                    <div id="usersList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Project Modal -->
+<div id="addProjectModal" class="modal">
+    <div class="modal-content" style="max-width: 500px;">
+        <h3>Add New Project</h3>
+        <input type="text" id="projectTitle" placeholder="Project Title">
+        <textarea id="projectDesc" placeholder="Description" rows="3"></textarea>
+        <input type="text" id="projectCategory" placeholder="Category">
+        <input type="text" id="projectTech" placeholder="Tech Stack (comma separated)">
+        <input type="number" id="projectPrice" placeholder="Price (₹)">
+        <input type="text" id="projectIcon" placeholder="Emoji Icon (e.g., 🚀)">
+        <input type="text" id="projectDownloadUrl" placeholder="Download ZIP URL (Mock/Github)">
+        <button class="btn btn-primary" onclick="addProject()" style="width: 100%; margin-top: 1rem;">Add Project</button>
+        <button class="btn btn-outline" onclick="closeModal('addProjectModal')" style="width: 100%; margin-top: 0.5rem;">Cancel</button>
+    </div>
+</div>
+
+<!-- Project Detail Modal -->
+<div id="projectDetailModal" class="modal">
+    <div class="modal-content" style="max-width: 650px; width: 95%; padding: 0; overflow: hidden; border-radius: 28px; border: 1px solid rgba(124,58,237,0.3);">
+        <div id="detailModalHeader" style="height: 160px; padding: 2rem; position: relative; display: flex; align-items: flex-end; background: linear-gradient(135deg, #7c3aed, #06b6d4);">
+            <button onclick="closeModal('projectDetailModal')" style="position: absolute; top: 1.5rem; right: 1.5rem; background: rgba(0,0,0,0.4); border: none; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; z-index: 10;">&times;</button>
+            <div style="display: flex; align-items: center; gap: 1.2rem; z-index: 1;">
+                <div id="detailModalIcon" style="font-size: 3.5rem; background: rgba(255,255,255,0.15); width: 80px; height: 80px; border-radius: 20px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2);">🚀</div>
+                <div>
+                    <span id="detailModalCategory" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.8); font-weight: 600;">WEB DEVELOPMENT</span>
+                    <h2 id="detailModalTitle" style="color: white; margin-top: 0.2rem; font-size: 1.6rem; font-weight: 800; text-shadow: 0 2px 10px rgba(0,0,0,0.3);">E-Commerce Platform</h2>
+                </div>
+            </div>
+            <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: linear-gradient(to top, rgba(15,15,37,1), rgba(15,15,37,0)); z-index: 0;"></div>
+        </div>
+        <div style="padding: 2rem; background: #0f0f25;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+                <div id="detailModalTechs" style="display: flex; gap: 0.5rem; flex-wrap: wrap;"></div>
+                <div style="display: flex; align-items: center; gap: 0.4rem; color: #f59e0b; font-weight: 600; font-size: 0.95rem;">
+                    <i class="fas fa-star"></i> <span id="detailModalRating">4.8</span>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 1.5rem;">
+                <h4 style="color: #06b6d4; margin-bottom: 0.5rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Description</h4>
+                <p id="detailModalDesc" style="color: #a0a0c0; font-size: 0.95rem; line-height: 1.6;"></p>
+            </div>
+            
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #06b6d4; margin-bottom: 0.6rem; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.05em;">Key Features</h4>
+                <ul id="detailModalFeatures" style="color: #a0a0c0; font-size: 0.9rem; padding-left: 1.2rem; line-height: 1.7; display: flex; flex-direction: column; gap: 0.4rem;">
+                </ul>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; gap: 1.5rem;">
+                <div>
+                    <span style="font-size: 0.8rem; color: #a0a0c0; display: block; margin-bottom: 0.2rem;">Price</span>
+                    <span id="detailModalPrice" style="font-size: 1.8rem; font-weight: 800; color: #ffffff;">₹799</span>
+                    <span id="detailModalOldPrice" style="font-size: 1rem; text-decoration: line-through; color: #a0a0c0; margin-left: 0.5rem;">₹1599</span>
+                </div>
+                <div id="detailModalActions" style="display: flex; gap: 0.8rem;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Gateway Modal -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content" style="max-width: 480px; width: 95%; padding: 2rem; border-radius: 28px; border: 1px solid rgba(6,182,212,0.4); background: linear-gradient(135deg, #0f0f25, #080816);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <div style="background: rgba(6,182,212,0.15); width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(6,182,212,0.3); color: #06b6d4; font-size: 1.2rem;">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: white;">Secure Checkout</h3>
+                    <span style="font-size: 0.75rem; color: #a0a0c0;">Powered by NexPay Security</span>
+                </div>
+            </div>
+            <button onclick="closeModal('paymentModal')" style="background: none; border: none; color: #a0a0c0; font-size: 1.5rem; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#a0a0c0'">&times;</button>
+        </div>
+
+        <div class="glass" style="padding: 1.2rem; border-radius: 16px; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.05);">
+            <div style="font-size: 0.85rem; color: #a0a0c0; margin-bottom: 0.5rem;">Order Total</div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <span id="paymentModalTotal" style="font-size: 1.8rem; font-weight: 800; color: #06b6d4;">₹0</span>
+                <span style="font-size: 0.75rem; color: #10b981; background: rgba(16,185,129,0.12); padding: 0.2rem 0.6rem; border-radius: 50px; font-weight: 600;">Includes 18% GST</span>
+            </div>
+            <div id="paymentModalItems" style="font-size: 0.8rem; color: #a0a0c0; margin-top: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.6rem; max-height: 80px; overflow-y: auto;">
+            </div>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+            <div style="font-size: 0.85rem; color: #a0a0c0; margin-bottom: 0.6rem; font-weight: 600;">Select Payment Method</div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem;">
+                <button class="pay-method-btn active" onclick="selectPayMethod('upi')" style="padding: 0.8rem; border-radius: 12px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;">
+                    <i class="fas fa-mobile-screen-button" style="font-size: 1.2rem; color: #06b6d4;"></i>
+                    <span style="font-size: 0.75rem;">UPI/QR</span>
+                </button>
+                <button class="pay-method-btn" onclick="selectPayMethod('card')" style="padding: 0.8rem; border-radius: 12px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;">
+                    <i class="fas fa-credit-card" style="font-size: 1.2rem;"></i>
+                    <span style="font-size: 0.75rem;">Card</span>
+                </button>
+                <button class="pay-method-btn" onclick="selectPayMethod('netbank')" style="padding: 0.8rem; border-radius: 12px; font-weight: 600; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;">
+                    <i class="fas fa-building-columns" style="font-size: 1.2rem;"></i>
+                    <span style="font-size: 0.75rem;">NetBanking</span>
+                </button>
+            </div>
+        </div>
+
+        <div id="paymentFormDetails" style="margin-bottom: 2rem;">
+            <div id="payFormUpi" class="pay-form-opt">
+                <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Enter UPI ID (e.g. user@okaxis)</label>
+                <input type="text" id="payUpiId" placeholder="username@upi" style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: white; outline: none; transition: border-color 0.3s;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin-top: 1rem; padding: 0.8rem; border-radius: 12px; background: rgba(6,182,212,0.08); border: 1px dashed rgba(6,182,212,0.3);">
+                    <i class="fas fa-qrcode" style="font-size: 1.5rem; color: #06b6d4;"></i>
+                    <span style="font-size: 0.8rem; color: #a0a0c0;">Or scan dynamic QR code on next step</span>
+                </div>
+            </div>
+
+            <div id="payFormCard" class="pay-form-opt" style="display: none;">
+                <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Card Number</label>
+                <input type="text" id="payCardNum" placeholder="4111 2222 3333 4444" style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: white; outline: none; margin-bottom: 0.8rem;">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 0.8rem;">
+                    <div>
+                        <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Expiry Date</label>
+                        <input type="text" id="payCardExpiry" placeholder="MM/YY" style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: white; outline: none;">
+                    </div>
+                    <div>
+                        <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">CVV</label>
+                        <input type="password" id="payCardCvv" placeholder="123" maxlength="3" style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: white; outline: none;">
+                    </div>
+                </div>
+            </div>
+
+            <div id="payFormNetbank" class="pay-form-opt" style="display: none;">
+                <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Select your Bank</label>
+                <select id="payBankSelect" style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; color: white; outline: none;">
+                    <option value="sbi" style="background: #0f0f25;">State Bank of India</option>
+                    <option value="hdfc" style="background: #0f0f25;">HDFC Bank</option>
+                    <option value="icici" style="background: #0f0f25;">ICICI Bank</option>
+                    <option value="axis" style="background: #0f0f25;">Axis Bank</option>
+                    <option value="kotak" style="background: #0f0f25;">Kotak Mahindra Bank</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="paySubmitBtn" class="btn btn-primary" onclick="processMockPayment()" style="width: 100%; justify-content: center; padding: 1rem; border-radius: 14px; font-size: 1rem; box-shadow: 0 4px 20px rgba(6,182,212,0.25); background: linear-gradient(135deg, #06b6d4, #7c3aed);">
+            <i class="fas fa-lock"></i> Pay Securely
+        </button>
+
+        <div id="payProcessingState" style="display: none; text-align: center; padding: 1rem 0;">
+            <div class="pay-spinner"></div>
+            <p style="font-weight: 600; color: white; font-size: 0.95rem;">Processing Payment...</p>
+            <p style="font-size: 0.75rem; color: #a0a0c0; margin-top: 0.2rem;">Please do not close this window or refresh the page.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Customization Modal -->
+<div id="customizationModal" class="modal">
+    <div class="modal-content" style="max-width: 550px; width: 95%; padding: 2rem; border-radius: 28px; border: 1px solid rgba(6,182,212,0.4); background: linear-gradient(135deg, #0f0f25, #080816);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center; gap: 0.8rem;">
+                <div style="background: rgba(6,182,212,0.15); width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(6,182,212,0.3); color: #06b6d4; font-size: 1.2rem;">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.15rem; font-weight: 700; color: white;">Project Customization</h3>
+                    <span style="font-size: 0.75rem; color: #a0a0c0;">Request custom features or a brand new project</span>
+                </div>
+            </div>
+            <button onclick="closeModal('customizationModal')" style="background: none; border: none; color: #a0a0c0; font-size: 1.5rem; cursor: pointer; transition: color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='#a0a0c0'">&times;</button>
+        </div>
+
+        <div style="max-height: 60vh; overflow-y: auto; padding-right: 0.5rem; margin-bottom: 1.5rem;">
+            <div style="margin-bottom: 1rem;">
+                <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Your Name</label>
+                <input type="text" id="custName" placeholder="John Doe">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Email Address</label>
+                <input type="email" id="custEmail" placeholder="john@example.com">
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Select Project for Customization</label>
+                <select id="custProjectSelect">
+                    <!-- Options populated dynamically -->
+                </select>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Customization Requirements / Project Details</label>
+                <textarea id="custRequirements" placeholder="Describe the changes, features, or project idea in detail..." rows="4" style="width: 100%; padding: 0.8rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; resize: vertical; font-family: inherit;"></textarea>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div>
+                    <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Estimated Budget (₹)</label>
+                    <input type="number" id="custBudget" placeholder="Flexible">
+                </div>
+                <div>
+                    <label style="font-size: 0.75rem; color: #a0a0c0; display: block; margin-bottom: 0.4rem;">Target Delivery Date</label>
+                    <input type="date" id="custDate">
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="submitCustomizationRequest()" style="width: 100%; justify-content: center; padding: 1rem; border-radius: 14px; font-size: 1rem; box-shadow: 0 4px 20px rgba(6,182,212,0.25); background: linear-gradient(135deg, #06b6d4, #7c3aed);">
+            <i class="fas fa-paper-plane"></i> Submit Request
+        </button>
+    </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+    let currentUser = null;
+    let allProjects = [];
+    let cartItems = [];
+    let currentFilter = 'all';
+
+    // Checkout and payment states
+    let pendingCheckout = {
+        projectIds: [],
+        amount: 0,
+        isCart: false,
+        itemsText: ''
+    };
+    let selectedPaymentMethod = 'upi';
+
+
+
+    // ============ API HELPER ============
+    async function apiCall(url, options = {}) {
+        const res = await fetch(url, {
+            ...options,
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json', ...options.headers }
+        });
+        return res.json();
+    }
+
+    // ============ TOAST ============
+    function showToast(msg, isError = false) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.className = isError ? 'toast error' : 'toast';
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ============ AUTH ============
+    async function checkAuth() {
+        const data = await apiCall('/api/me');
+        if (data.user) {
+            currentUser = data.user;
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('userMenu').style.display = 'flex';
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('userName').textContent = currentUser.name;
+            document.getElementById('dashboardName').textContent = currentUser.name;
+            document.getElementById('dashboardEmail').textContent = currentUser.email;
+            document.getElementById('dashboardAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            if (currentUser.is_admin) document.getElementById('adminBtn').style.display = 'block';
+            await loadCart();
+        }
+    }
+
+    async function login() {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const data = await apiCall('/api/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+        if (data.success) {
+            currentUser = data.user;
+            closeModal('loginModal');
+            showToast('Welcome back, ' + currentUser.name + '!');
+            await checkAuth();
+            location.reload();
+        } else {
+            showToast(data.error, true);
+        }
+    }
+
+    async function register() {
+        const data = await apiCall('/api/register', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: document.getElementById('regName').value,
+                email: document.getElementById('regEmail').value,
+                password: document.getElementById('regPassword').value
+            })
+        });
+        if (data.success) {
+            currentUser = data.user;
+            closeModal('registerModal');
+            showToast('Account created successfully!');
+            await checkAuth();
+            location.reload();
+        } else {
+            showToast(data.error, true);
+        }
+    }
+
+    async function logout() {
+        await apiCall('/api/logout', { method: 'POST' });
+        currentUser = null;
+        location.reload();
+    }
+
+    // ============ PROJECTS ============
+    async function loadProjects() {
+        const data = await apiCall('/api/projects');
+        allProjects = data.projects || [];
+        document.getElementById('projectCount').textContent = allProjects.length;
+        renderProjects(allProjects);
+        renderFeatured();
+        buildFilters();
+    }
+
+    function renderProjects(projects) {
+        const grid = document.getElementById('projectsGrid');
+        let filtered = currentFilter === 'all' ? projects : projects.filter(p => p.category === currentFilter);
+        if (document.getElementById('searchInput')) {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (query) filtered = filtered.filter(p =>
+                p.title.toLowerCase().includes(query) ||
+                (p.tech_stack || '').toLowerCase().includes(query)
+            );
+        }
+        grid.innerHTML = filtered.map(p => projectCardHTML(p)).join('');
+    }
+
+    function renderFeatured() {
+        const featured = allProjects.filter(p => p.is_featured).slice(0, 6);
+        const grid = document.getElementById('featuredGrid');
+        if (grid) grid.innerHTML = featured.map(p => projectCardHTML(p)).join('');
+    }
+
+    function projectCardHTML(p) {
+        const discount = p.original_price ? Math.round((1 - p.price/p.original_price) * 100) : 0;
+        const techs = (p.tech_stack || '').split(',').slice(0, 3).map(t => `<span class="tech-tag">${t.trim()}</span>`).join('');
+        return `
+            <div class="project-card animate-slideUp" onclick="showProjectDetail(${p.id})">
+                <div class="card-thumb" style="background: linear-gradient(135deg, ${p.thumbnail_color || '#7c3aed'}22, ${p.thumbnail_color || '#7c3aed'}44)">
+                    <span class="card-thumb-inner">${p.icon || '🚀'}</span>
+                    ${p.is_featured ? '<span class="featured-badge">⭐ Featured</span>' : ''}
+                    ${discount > 0 ? `<span class="discount-badge">-${discount}%</span>` : ''}
+                </div>
+                <div class="card-body">
+                    <div class="card-category">${p.category}</div>
+                    <div class="card-title">${p.title}</div>
+                    <div class="card-desc">${p.description.substring(0, 80)}...</div>
+                    <div class="card-tech">${techs}</div>
+                    <div class="card-footer">
+                        <div>
+                            <span class="price">₹${p.price}</span>
+                            ${p.original_price ? `<span class="old-price">₹${p.original_price}</span>` : ''}
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="event.stopPropagation(); addToCart(${p.id})">
+                                <i class="fas fa-cart-plus"></i>
+                            </button>
+                            <button class="btn btn-primary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="event.stopPropagation(); buyNow(${p.id})">
+                                Buy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    function buildFilters() {
+        const categories = [...new Set(allProjects.map(p => p.category))];
+        const filterContainer = document.getElementById('categoryFilters');
+        if (filterContainer) {
+            filterContainer.innerHTML = `<button class="filter-btn active" onclick="setFilter('all', this)">All</button>` +
+                categories.map(c => `<button class="filter-btn" onclick="setFilter('${c}', this)">${c}</button>`).join('');
+        }
+    }
+
+    function setFilter(category, btn) {
+        currentFilter = category;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderProjects(allProjects);
+    }
+
+    function filterProjects() {
+        renderProjects(allProjects);
+    }
+
+    async function showProjectDetail(id) {
+        const data = await apiCall(`/api/projects/${id}`);
+        if (!data || !data.project) {
+            showToast('Could not load project details', true);
+            return;
+        }
+        const p = data.project;
+        
+        // Populate header
+        const header = document.getElementById('detailModalHeader');
+        header.style.background = p.gradient ? `linear-gradient(${p.gradient})` : 'linear-gradient(135deg, #7c3aed, #06b6d4)';
+        document.getElementById('detailModalIcon').textContent = p.icon || '🚀';
+        document.getElementById('detailModalCategory').textContent = p.category;
+        document.getElementById('detailModalTitle').textContent = p.title;
+        
+        // Tech stacks
+        const techsContainer = document.getElementById('detailModalTechs');
+        techsContainer.innerHTML = (p.tech_stack || '').split(',').map(t => t.trim()).filter(Boolean)
+            .map(t => `<span class="tech-tag" style="background: rgba(124,58,237,0.15); color: #a78bfa; padding: 0.3rem 0.8rem; border-radius: 6px; font-size: 0.8rem; font-weight: 500;">${t}</span>`).join('');
+            
+        document.getElementById('detailModalRating').textContent = p.rating || '4.8';
+        document.getElementById('detailModalDesc').textContent = p.long_desc || p.description;
+        
+        // Features
+        const featuresList = document.getElementById('detailModalFeatures');
+        featuresList.innerHTML = '';
+        const featuresArray = p.features ? p.features.split('\n').map(f => f.trim()).filter(Boolean) : [
+            'Full source code included',
+            'Comprehensive setup documentation',
+            'Responsive UI/UX design layout',
+            'Secure clean database integration'
+        ];
+        featuresArray.forEach(f => {
+            const li = document.createElement('li');
+            li.innerHTML = `<i class="fas fa-check" style="color: #06b6d4; margin-right: 0.5rem; font-size: 0.8rem;"></i> ${f}`;
+            li.style.listStyle = 'none';
+            featuresList.appendChild(li);
+        });
+        
+        // Pricing
+        document.getElementById('detailModalPrice').textContent = `₹${p.price}`;
+        if (p.original_price) {
+            document.getElementById('detailModalOldPrice').textContent = `₹${p.original_price}`;
+            document.getElementById('detailModalOldPrice').style.display = 'inline';
+        } else {
+            document.getElementById('detailModalOldPrice').style.display = 'none';
+        }
+        
+        // Action Buttons
+        const actionsContainer = document.getElementById('detailModalActions');
+        actionsContainer.innerHTML = '';
+        
+        if (p.purchased) {
+            actionsContainer.innerHTML = `
+                <a href="${p.download_url}" target="_blank" class="btn btn-success" style="padding: 0.8rem 1.8rem; text-decoration: none; border-radius: 50px; display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <i class="fas fa-download"></i> Download Source Code
+                </a>
+            `;
+        } else {
+            const inCart = cartItems.some(item => item.project_id === p.id);
+            actionsContainer.innerHTML = `
+                <button class="btn btn-outline" style="border-radius: 50px; padding: 0.8rem 1.5rem;" onclick="addToCartFromDetail(${p.id})">
+                    <i class="fas ${inCart ? 'fa-check' : 'fa-cart-plus'}"></i> ${inCart ? 'In Cart' : 'Add to Cart'}
+                </button>
+                <button class="btn btn-primary" style="border-radius: 50px; padding: 0.8rem 1.8rem;" onclick="buyNowFromDetail(${p.id})">
+                    Buy Now
+                </button>
+            `;
+        }
+        
+        openModal('projectDetailModal');
+    }
+
+    async function addToCartFromDetail(pid) {
+        closeModal('projectDetailModal');
+        await addToCart(pid);
+    }
+
+    async function buyNowFromDetail(pid) {
+        closeModal('projectDetailModal');
+        await buyNow(pid);
+    }
+
+    // ============ CART ============
+    async function loadCart() {
+        if (!currentUser) return;
+        const data = await apiCall('/api/cart');
+        cartItems = data.items || [];
+        document.getElementById('cartCount').textContent = cartItems.length;
+        renderCartSidebar();
+    }
+
+    function renderCartSidebar() {
+        const container = document.getElementById('cartItems');
+        const itemsWithDetails = cartItems.map(c => allProjects.find(p => p.id === c.project_id)).filter(Boolean);
+        const total = itemsWithDetails.reduce((s, p) => s + p.price, 0);
+
+        if (!itemsWithDetails.length) {
+            container.innerHTML = '<p style="color: #a0a0c0; text-align: center;">Your cart is empty</p>';
+        } else {
+            container.innerHTML = itemsWithDetails.map(item => `
+                <div class="cart-item">
+                    <div class="cart-item-icon">${item.icon || '🚀'}</div>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 600;">${item.title}</div>
+                        <div style="font-size: 0.8rem; color: #a0a0c0;">₹${item.price}</div>
+                    </div>
+                    <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: #ef4444; cursor: pointer;">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+        document.getElementById('totalAmount').textContent = Math.round(total * 1.18);
+    }
+
+    async function addToCart(pid) {
+        if (!currentUser) { openModal('loginModal'); showToast('Please login first', true); return; }
+        if (cartItems.find(c => c.project_id === pid)) { showToast('Already in cart!', true); return; }
+        await apiCall('/api/cart/add', { method: 'POST', body: JSON.stringify({ project_id: pid }) });
+        await loadCart();
+        showToast('Added to cart!');
+    }
+
+    async function removeFromCart(pid) {
+        await apiCall('/api/cart/remove', { method: 'POST', body: JSON.stringify({ project_id: pid }) });
+        await loadCart();
+    }
+
+    function selectPayMethod(method) {
+        selectedPaymentMethod = method;
+        document.querySelectorAll('.pay-method-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        
+        if (method === 'upi') {
+            document.querySelectorAll('.pay-method-btn')[0].classList.add('active');
+            document.getElementById('payFormUpi').style.display = 'block';
+            document.getElementById('payFormCard').style.display = 'none';
+            document.getElementById('payFormNetbank').style.display = 'none';
+        } else if (method === 'card') {
+            document.querySelectorAll('.pay-method-btn')[1].classList.add('active');
+            document.getElementById('payFormUpi').style.display = 'none';
+            document.getElementById('payFormCard').style.display = 'block';
+            document.getElementById('payFormNetbank').style.display = 'none';
+        } else {
+            document.querySelectorAll('.pay-method-btn')[2].classList.add('active');
+            document.getElementById('payFormUpi').style.display = 'none';
+            document.getElementById('payFormCard').style.display = 'none';
+            document.getElementById('payFormNetbank').style.display = 'block';
+        }
+    }
+
+    function openPaymentModal() {
+        document.getElementById('paymentModalTotal').textContent = `₹${pendingCheckout.amount}`;
+        document.getElementById('paymentModalItems').textContent = pendingCheckout.itemsText;
+        
+        selectPayMethod('upi');
+        document.getElementById('payUpiId').value = '';
+        document.getElementById('payCardNum').value = '';
+        document.getElementById('payCardExpiry').value = '';
+        document.getElementById('payCardCvv').value = '';
+        
+        document.getElementById('paySubmitBtn').style.display = 'block';
+        document.getElementById('payProcessingState').style.display = 'none';
+        
+        openModal('paymentModal');
+    }
+
+    async function processMockPayment() {
+        if (selectedPaymentMethod === 'upi') {
+            const upi = document.getElementById('payUpiId').value.trim();
+            if (!upi) { showToast('Please enter a valid UPI ID', true); return; }
+        } else if (selectedPaymentMethod === 'card') {
+            const card = document.getElementById('payCardNum').value.trim();
+            const exp = document.getElementById('payCardExpiry').value.trim();
+            const cvv = document.getElementById('payCardCvv').value.trim();
+            if (!card || !exp || !cvv) { showToast('Please fill all card details', true); return; }
+        }
+        
+        document.getElementById('paySubmitBtn').style.display = 'none';
+        document.getElementById('payProcessingState').style.display = 'block';
+        
+        setTimeout(async () => {
+            const data = await apiCall('/api/order', {
+                method: 'POST',
+                body: JSON.stringify({
+                    project_ids: pendingCheckout.projectIds,
+                    payment_method: selectedPaymentMethod,
+                    payment_detail: selectedPaymentMethod === 'upi' ? document.getElementById('payUpiId').value : 'Mock Account'
+                })
+            });
+            
+            if (data.success) {
+                showToast('Payment secure! Purchase successful.');
+                closeModal('paymentModal');
+                
+                if (pendingCheckout.isCart) {
+                    await apiCall('/api/cart/clear', { method: 'POST' });
+                    await loadCart();
+                }
+                
+                await loadProjects();
+                showDashboard();
+            } else {
+                showToast(data.error || 'Payment failed. Please try again.', true);
+                document.getElementById('paySubmitBtn').style.display = 'block';
+                document.getElementById('payProcessingState').style.display = 'none';
+            }
+        }, 2200);
+    }
+
+    async function buyNow(pid) {
+        if (!currentUser) { openModal('loginModal'); showToast('Please login first', true); return; }
+        const p = allProjects.find(x => x.id === pid);
+        if (!p) return;
+        pendingCheckout = {
+            projectIds: [pid],
+            amount: p.price,
+            isCart: false,
+            itemsText: p.title
+        };
+        openPaymentModal();
+    }
+
+    async function checkout() {
+        if (!currentUser || !cartItems.length) return;
+        const itemsWithDetails = cartItems.map(c => allProjects.find(p => p.id === c.project_id)).filter(Boolean);
+        const total = itemsWithDetails.reduce((s, p) => s + p.price, 0);
+        pendingCheckout = {
+            projectIds: cartItems.map(c => c.project_id),
+            amount: Math.round(total * 1.18),
+            isCart: true,
+            itemsText: itemsWithDetails.map(item => item.title).join(', ')
+        };
+        if (document.getElementById('cartSidebar').classList.contains('open')) {
+            toggleCart();
+        }
+        openPaymentModal();
+    }
+
+    // ============ DASHBOARD ============
+    async function loadPurchases() {
+        const data = await apiCall('/api/my-orders');
+        const container = document.getElementById('purchasesTab');
+        if (!data.orders || !data.orders.length) {
+            container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #a0a0c0; border: 1px dashed rgba(255,255,255,0.1); border-radius: 20px;">No purchases yet. Browse our projects!</div>';
+            return;
+        }
+        container.innerHTML = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.2rem;">
+                ${data.orders.map(o => `
+                    <div class="glass animate-slideUp" style="padding: 1.5rem; border-radius: 20px; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); height: 100%;">
+                        <div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <div style="display: flex; align-items: center; gap: 0.8rem;">
+                                    <div style="font-size: 2rem; background: rgba(124,58,237,0.15); width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                        ${o.project_icon || '🚀'}
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 700; color: white; font-size: 1rem;">${o.project_title}</div>
+                                        <span style="font-size: 0.75rem; color: #a0a0c0;">Ref: ${o.order_ref}</span>
+                                    </div>
+                                </div>
+                                <span style="font-size: 0.75rem; color: #10b981; background: rgba(16,185,129,0.12); padding: 0.25rem 0.6rem; border-radius: 50px; font-weight: 600;">${o.status.toUpperCase()}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 0.8rem; margin-top: 0.5rem; font-size: 0.85rem; color: #a0a0c0;">
+                                <span>Amount Paid:</span>
+                                <strong style="color: white;">₹${o.amount}</strong>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; margin-top: 0.4rem; font-size: 0.85rem; color: #a0a0c0; margin-bottom: 1.2rem;">
+                                <span>Purchase Date:</span>
+                                <span style="color: white;">${new Date(o.date).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                        <div>
+                            ${o.download_url ? `
+                                <a href="${o.download_url}" target="_blank" class="btn btn-success" style="width: 100%; justify-content: center; padding: 0.7rem; border-radius: 12px; font-size: 0.85rem; text-decoration: none; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); display: inline-flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-download"></i> Download Source Code
+                                </a>
+                            ` : `
+                                <button class="btn btn-outline" style="width: 100%; justify-content: center; padding: 0.7rem; border-radius: 12px; font-size: 0.85rem; cursor: not-allowed;" disabled>
+                                    <i class="fas fa-hourglass-half"></i> Processing Download Link
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    async function loadCartTab() {
+        const itemsWithDetails = cartItems.map(c => allProjects.find(p => p.id === c.project_id)).filter(Boolean);
+        const total = itemsWithDetails.reduce((s, p) => s + p.price, 0);
+        const container = document.getElementById('cartTab');
+        if (!itemsWithDetails.length) {
+            container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #a0a0c0;">Your cart is empty</div>';
+            return;
+        }
+        container.innerHTML = `
+            ${itemsWithDetails.map(item => `
+                <div class="order-card">
+                    <div><span style="font-size: 1.5rem;">${item.icon || '🚀'}</span> <strong>${item.title}</strong></div>
+                    <div>₹${item.price}</div>
+                    <button class="btn btn-danger" style="padding: 0.3rem 0.8rem;" onclick="removeFromCartAndRefresh(${item.id})">Remove</button>
+                </div>
+            `).join('')}
+            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+                <h3>Total: ₹${Math.round(total * 1.18)}</h3>
+                <button class="btn btn-primary" onclick="checkoutFromCart()">Proceed to Checkout</button>
+            </div>
+        `;
+    }
+
+    async function removeFromCartAndRefresh(pid) {
+        await removeFromCart(pid);
+        await loadCart();
+        await loadCartTab();
+    }
+
+    async function checkoutFromCart() {
+        await checkout();
+        await loadCart();
+        switchDashboardTab('purchases');
+    }
+
+    // ============ ADMIN ============
+    async function loadAdminData() {
+        const [stats, orders, users] = await Promise.all([
+            apiCall('/api/admin/stats'),
+            apiCall('/api/admin/transactions'),
+            apiCall('/api/admin/users')
+        ]);
+
+        document.getElementById('adminStats').innerHTML = `
+            <div class="stat-box"><h3>${stats.projects || 0}</h3><p>Projects</p></div>
+            <div class="stat-box"><h3>₹${stats.revenue || 0}</h3><p>Revenue</p></div>
+            <div class="stat-box"><h3>${stats.users || 0}</h3><p>Users</p></div>
+            <div class="stat-box"><h3>${stats.orders || 0}</h3><p>Orders</p></div>
+        `;
+
+        if (orders.orders) {
+            document.getElementById('recentOrders').innerHTML = `
+                <table>
+                    <thead><tr><th>Order ID</th><th>User</th><th>Project</th><th>Amount</th><th>Status</th></tr></thead>
+                    <tbody>
+                        ${orders.orders.slice(0,5).map(o => `
+                            <tr><td>#${o.id}</td><td>${o.user_name}</td><td>${o.project_title}</td><td>₹${o.amount}</td><td>${o.status}</td></tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        if (orders.orders) {
+            document.getElementById('transactionsList').innerHTML = `
+                <table>
+                    <thead><tr><th>ID</th><th>User</th><th>Project</th><th>Amount</th><th>Method</th><th>Date</th></tr></thead>
+                    <tbody>
+                        ${orders.orders.map(o => `
+                            <tr><td>#${o.id}</td><td>${o.user_name}</td><td>${o.project_title}</td><td>₹${o.amount}</td><td>${o.payment_method}</td><td>${new Date(o.date).toLocaleDateString()}</td></tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        if (users.users) {
+            document.getElementById('usersList').innerHTML = `
+                <table>
+                    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Orders</th><th>Joined</th></tr></thead>
+                    <tbody>
+                        ${users.users.map(u => `
+                            <tr><td>${u.name}</td><td>${u.email}</td><td>${u.is_admin ? 'Admin' : 'User'}</td><td>${u.order_count || 0}</td><td>${new Date(u.created_at).toLocaleDateString()}</td></tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        const projects = await apiCall('/api/admin/projects');
+        document.getElementById('adminProjectsList').innerHTML = `
+            <table>
+                <thead><tr><th>Icon</th><th>Title</th><th>Category</th><th>Price</th><th>Download Link</th><th>Action</th></tr></thead>
+                <tbody>
+                    ${projects.projects.map(p => `
+                        <tr>
+                            <td>${p.icon || '🚀'}</td>
+                            <td><strong>${p.title}</strong></td>
+                            <td>${p.category}</td>
+                            <td>₹${p.price}</td>
+                            <td><span style="font-size: 0.75rem; color: #a0a0c0; max-width: 180px; display: inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.download_url || 'None'}</span></td>
+                            <td><button class="btn btn-danger" style="padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem;" onclick="deleteProject(${p.id})">Delete</button></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    async function addProject() {
+        const data = {
+            title: document.getElementById('projectTitle').value,
+            description: document.getElementById('projectDesc').value,
+            category: document.getElementById('projectCategory').value,
+            tech_stack: document.getElementById('projectTech').value,
+            price: parseFloat(document.getElementById('projectPrice').value),
+            icon: document.getElementById('projectIcon').value || '🚀',
+            download_url: document.getElementById('projectDownloadUrl').value || 'https://github.com/example/project-source/archive/refs/heads/main.zip'
+        };
+        if (!data.title || !data.description || !data.category || !data.price) {
+            showToast('Please fill all fields', true);
+            return;
+        }
+        const res = await apiCall('/api/admin/project', { method: 'POST', body: JSON.stringify(data) });
+        if (res.success) {
+            showToast('Project added!');
+            closeModal('addProjectModal');
+            await loadProjects();
+            await loadAdminData();
+            document.getElementById('projectTitle').value = '';
+            document.getElementById('projectDesc').value = '';
+            document.getElementById('projectCategory').value = '';
+            document.getElementById('projectTech').value = '';
+            document.getElementById('projectPrice').value = '';
+            document.getElementById('projectIcon').value = '';
+            document.getElementById('projectDownloadUrl').value = '';
+        }
+    }
+
+    async function deleteProject(id) {
+        if (!confirm('Delete this project?')) return;
+        const res = await apiCall(`/api/admin/project/${id}`, { method: 'DELETE' });
+        if (res.success) {
+            showToast('Project deleted');
+            await loadProjects();
+            await loadAdminData();
+        }
+    }
+
+    // ============ UI HELPERS ============
+    function showPage(page) {
+        document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
+        document.getElementById('projectsPage').style.display = page === 'projects' ? 'block' : 'none';
+        document.getElementById('dashboardPage').style.display = page === 'dashboard' ? 'block' : 'none';
+        document.getElementById('adminPage').style.display = page === 'admin' ? 'block' : 'none';
+        if (page === 'projects') loadProjects();
+        if (page === 'dashboard') { loadPurchases(); loadCart(); loadCustomizations(); }
+        if (page === 'admin' && currentUser?.is_admin) loadAdminData();
+        window.scrollTo(0, 0);
+    }
+
+    function showDashboard() {
+        showPage('dashboard');
+        switchDashboardTab('purchases');
+    }
+
+    function showAdminPanel() {
+        if (currentUser?.is_admin) showPage('admin');
+    }
+
+    function switchDashboardTab(tab) {
+        document.getElementById('purchasesTab').style.display = tab === 'purchases' ? 'block' : 'none';
+        document.getElementById('cartTab').style.display = tab === 'cart' ? 'block' : 'none';
+        document.getElementById('customTab').style.display = tab === 'custom' ? 'block' : 'none';
+        document.querySelectorAll('.dashboard-tab').forEach(t => t.classList.remove('active'));
+        if (tab === 'purchases') {
+            document.querySelectorAll('.dashboard-tab')[0].classList.add('active');
+            loadPurchases();
+        } else if (tab === 'cart') {
+            document.querySelectorAll('.dashboard-tab')[1].classList.add('active');
+            loadCartTab();
+        } else if (tab === 'custom') {
+            document.querySelectorAll('.dashboard-tab')[2].classList.add('active');
+            loadCustomizations();
+        }
+    }
+
+    function switchAdminTab(tab) {
+        document.getElementById('adminDashboardTab').style.display = tab === 'dashboard' ? 'block' : 'none';
+        document.getElementById('adminProjectsTab').style.display = tab === 'projects' ? 'block' : 'none';
+        document.getElementById('adminCustomizationsTab').style.display = tab === 'customizations' ? 'block' : 'none';
+        document.getElementById('adminTransactionsTab').style.display = tab === 'transactions' ? 'block' : 'none';
+        document.getElementById('adminUsersTab').style.display = tab === 'users' ? 'block' : 'none';
+        
+        // Update active class on sidebar links
+        document.querySelectorAll('.admin-sidebar .sidebar-link').forEach(link => {
+            if (link.getAttribute('onclick') && link.getAttribute('onclick').includes(`'${tab}'`)) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+        
+        if (tab === 'dashboard') loadAdminData();
+        if (tab === 'customizations') loadAdminCustomizations();
+    }
+
+    // ============ CUSTOMIZATION REQUESTS ============
+    async function openCustomizationModal(preSelectedProjectTitle = null) {
+        let purchasedTitles = [];
+        if (currentUser) {
+            const orderData = await apiCall('/api/my-orders');
+            if (orderData && orderData.orders) {
+                purchasedTitles = [...new Set(orderData.orders.map(o => o.project_title))];
+            }
+            document.getElementById('custName').value = currentUser.name;
+            document.getElementById('custEmail').value = currentUser.email;
+        } else {
+            document.getElementById('custName').value = '';
+            document.getElementById('custEmail').value = '';
+        }
+        
+        const sel = document.getElementById('custProjectSelect');
+        sel.innerHTML = '';
+        sel.innerHTML += '<option value="New Project Proposal">New Project Proposal (Brand New Idea)</option>';
+        
+        if (purchasedTitles.length > 0) {
+            let optGroup = `<optgroup label="Your Purchased Projects (Request Customization)">`;
+            purchasedTitles.forEach(title => {
+                const isSelected = (preSelectedProjectTitle === title) ? 'selected' : '';
+                optGroup += `<option value="${title}" ${isSelected}>Customize Purchased: ${title}</option>`;
+            });
+            optGroup += `</optgroup>`;
+            sel.innerHTML += optGroup;
+        }
+        
+        let otherOptGroup = `<optgroup label="Other Marketplace Projects">`;
+        allProjects.forEach(p => {
+            if (!purchasedTitles.includes(p.title)) {
+                const isSelected = (preSelectedProjectTitle === p.title) ? 'selected' : '';
+                otherOptGroup += `<option value="${p.title}" ${isSelected}>Customize: ${p.title} (₹${p.price})</option>`;
+            }
+        });
+        otherOptGroup += `</optgroup>`;
+        sel.innerHTML += otherOptGroup;
+        
+        if (preSelectedProjectTitle) {
+            sel.value = preSelectedProjectTitle;
+        }
+        
+        openModal('customizationModal');
+    }
+
+    async function submitCustomizationRequest() {
+        const name = document.getElementById('custName').value.trim();
+        const email = document.getElementById('custEmail').value.trim();
+        const project_title = document.getElementById('custProjectSelect').value;
+        const requirements = document.getElementById('custRequirements').value.trim();
+        const budget = document.getElementById('custBudget').value;
+        const target_date = document.getElementById('custDate').value;
+        
+        if (!name || !email || !requirements) {
+            showToast('Name, Email, and Requirements are required', true);
+            return;
+        }
+        
+        const res = await apiCall('/api/customization/submit', {
+            method: 'POST',
+            body: JSON.stringify({ name, email, project_title, requirements, budget, target_date })
+        });
+        
+        if (res.success) {
+            showToast('Customization request submitted!');
+            closeModal('customizationModal');
+            document.getElementById('custRequirements').value = '';
+            document.getElementById('custBudget').value = '';
+            document.getElementById('custDate').value = '';
+            if (currentUser) {
+                await loadCustomizations();
+            }
+        } else {
+            showToast(res.error || 'Failed to submit request', true);
+        }
+    }
+
+    async function loadCustomizations() {
+        const data = await apiCall('/api/customization/my-requests');
+        const container = document.getElementById('customTab');
+        if (!data.requests || !data.requests.length) {
+            container.innerHTML = '<div style="text-align: center; padding: 3rem; color: #a0a0c0; border: 1px dashed rgba(255,255,255,0.1); border-radius: 20px;">No customizations yet. Need custom features? Request one!</div>';
+            return;
+        }
+        
+        container.innerHTML = `
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.2rem;">
+                ${data.requests.map(r => {
+                    let badgeColor = '#f59e0b';
+                    if (r.status === 'reviewed') badgeColor = '#06b6d4';
+                    if (r.status === 'accepted') badgeColor = '#10b981';
+                    if (r.status === 'rejected') badgeColor = '#ef4444';
+                    
+                    return `
+                        <div class="glass animate-slideUp" style="padding: 1.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); display: flex; flex-direction: column; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem;">
+                                    <strong style="color: white; font-size: 1.05rem;">${r.project_title}</strong>
+                                    <span style="font-size: 0.75rem; color: ${badgeColor}; background: ${badgeColor}22; padding: 0.25rem 0.6rem; border-radius: 50px; font-weight: 600; text-transform: uppercase;">${r.status}</span>
+                                </div>
+                                <p style="color: #a0a0c0; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.8rem;">
+                                    ${r.requirements}
+                                </p>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #a0a0c0; margin-bottom: 0.3rem;">
+                                    <span>Budget:</span>
+                                    <strong style="color: white;">${r.budget ? '₹' + r.budget : 'Flexible'}</strong>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #a0a0c0; margin-bottom: 0.3rem;">
+                                    <span>Target Date:</span>
+                                    <span style="color: white;">${r.target_date || 'Flexible'}</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #a0a0c0;">
+                                    <span>Submitted:</span>
+                                    <span style="color: white;">${r.date}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+    }
+
+    async function loadAdminCustomizations() {
+        const data = await apiCall('/api/admin/customizations');
+        const container = document.getElementById('adminCustomizationsList');
+        if (!data.requests || !data.requests.length) {
+            container.innerHTML = '<p style="color: #a0a0c0; text-align: center; padding: 2rem;">No customization requests found.</p>';
+            return;
+        }
+        
+        container.innerHTML = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Client</th>
+                        <th>Requirements</th>
+                        <th>Budget</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${data.requests.map(r => `
+                        <tr>
+                            <td><strong>${r.project_title}</strong></td>
+                            <td>
+                                <div style="font-weight: 600;">${r.user_name}</div>
+                                <div style="font-size: 0.75rem; color: #a0a0c0;">${r.user_email}</div>
+                            </td>
+                            <td style="max-width: 250px; font-size: 0.8rem; color: #a0a0c0;" title="${r.requirements}">
+                                <div style="max-height: 50px; overflow-y: auto;">${r.requirements}</div>
+                            </td>
+                            <td>${r.budget ? '₹' + r.budget : 'Flexible'}</td>
+                            <td>
+                                <div style="font-size: 0.8rem;">${r.date}</div>
+                                <div style="font-size: 0.75rem; color: #a0a0c0;">Target: ${r.target_date || 'Flexible'}</div>
+                            </td>
+                            <td>
+                                <span style="font-size: 0.75rem; font-weight: 600; text-transform: uppercase;" id="status-badge-${r.id}">${r.status}</span>
+                            </td>
+                            <td>
+                                <select onchange="updateCustomizationStatus(${r.id}, this.value)" style="width: auto; padding: 0.3rem 0.5rem; margin: 0; font-size: 0.75rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: white;">
+                                    <option value="pending" ${r.status === 'pending' ? 'selected' : ''}>Pending</option>
+                                    <option value="reviewed" ${r.status === 'reviewed' ? 'selected' : ''}>Reviewed</option>
+                                    <option value="accepted" ${r.status === 'accepted' ? 'selected' : ''}>Accept</option>
+                                    <option value="rejected" ${r.status === 'rejected' ? 'selected' : ''}>Reject</option>
+                                </select>
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    }
+
+    async function updateCustomizationStatus(rid, status) {
+        const res = await apiCall(`/api/admin/customization/${rid}/status`, {
+            method: 'POST',
+            body: JSON.stringify({ status })
+        });
+        if (res.success) {
+            showToast('Status updated!');
+            await loadAdminCustomizations();
+        } else {
+            showToast(res.error || 'Failed to update status', true);
+        }
+    }
+
+    function toggleCart() {
+        document.getElementById('cartSidebar').classList.toggle('open');
+        document.getElementById('cartOverlay').classList.toggle('active');
+    }
+
+    function toggleUserDropdown() {
+        const dd = document.getElementById('userDropdown');
+        dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function openAddProjectModal() { openModal('addProjectModal'); }
+    function showHowItWorks() { alert('🚀 How it works:\n\n1. Browse projects\n2. Add to cart\n3. Complete payment\n4. Instant download\n\nSimple!'); }
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#userAvatar') && !e.target.closest('#userDropdown')) {
+            document.getElementById('userDropdown').style.display = 'none';
+        }
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Initialize
+    checkAuth();
+    loadProjects();
+</script>
+</body>
+</html>
